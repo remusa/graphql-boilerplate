@@ -11,17 +11,20 @@ const user = (sequelize, DataTypes) => {
     }
 
     User.findByLogin = async login => {
-        let user = await User.findOne({
+        let findUser = await User.findOne({
             where: { username: login },
         })
 
-        if (!user) {
-            user = await User.findOne({
+        if (!findUser) {
+            findUser = await User.findOne({
                 where: { email: login },
             })
         }
 
-        return user
+        return findUser
     }
+
+    return User
 }
+
 export default user

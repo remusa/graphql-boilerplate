@@ -10,7 +10,7 @@ import helmet from 'helmet'
 import 'dotenv/config'
 import schema from './schema'
 import resolvers from './resolvers'
-import models from './models'
+import models, { sequelize } from './models'
 
 const server = new ApolloServer({
     cors: false,
@@ -65,6 +65,8 @@ server.applyMiddleware({ app, cors: false, path: '/graphql' })
 //     next()
 // })
 
-app.listen({ port: process.env.PORT }, () => {
-    console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
+sequelize.sync().then(() => {
+    app.listen({ port: process.env.PORT }, () => {
+        console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
+    })
 })
