@@ -8,19 +8,18 @@ import cors from 'cors'
 import helmet from 'helmet'
 
 import 'dotenv/config'
-import { typeDefs } from './schema'
-import { resolvers } from './resolvers'
+import schema from './schema'
+import resolvers from './resolvers'
+import models from './models'
 
 const server = new ApolloServer({
     cors: false,
-    typeDefs,
+    typeDefs: schema,
     resolvers,
     // context: ({ req, res }) => ({ req, res }),
     context: {
-        me: {
-            id: '1',
-            username: 'Robin Wieruch',
-        },
+        models,
+        me: models.users[1],
     },
 })
 
@@ -45,10 +44,6 @@ app.use(helmet())
 
 server.applyMiddleware({ app, cors: false, path: '/graphql' })
 
-app.listen({ port: process.env.PORT }, () => {
-    console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
-})
-
 // Decode JWT and pass it to each request
 // app.use((req, res, next) => {
 //     const { token } = req.cookies
@@ -69,3 +64,7 @@ app.listen({ port: process.env.PORT }, () => {
 //     req.user = user
 //     next()
 // })
+
+app.listen({ port: process.env.PORT }, () => {
+    console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`)
+})
