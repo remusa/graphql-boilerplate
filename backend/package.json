@@ -26,7 +26,7 @@
         "frontend": "cd .. & cd frontend/ & npm run dev"
     },
     "dependencies": {
-        "apollo-server": "^2.25.3",
+        "apollo-server": "^2.25.4",
         "apollo-server-express": "^2.14.2",
         "argon2": "^0.24.0",
         "body-parser": "^1.19.0",
